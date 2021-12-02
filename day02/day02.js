@@ -16,20 +16,46 @@ const parseCommand = line => {
 };
 
 const part1operations = {
-    forward: ({hpos, depth}, {number}) => ({hpos: hpos+number, depth}),
-    down: ({hpos, depth}, {number}) => ({hpos, depth: depth + number}),
-    up: ({hpos, depth}, {number}) => ({hpos, depth: depth - number})
+    forward: (state, number) => {
+        const {hpos} = state;
+        return { ...state, hpos: hpos + number};
+    },
+
+    down: (state, number) => {
+        const {depth} = state;
+        return {...state, depth: depth + number};
+    },
+
+    up: (state, number) => {
+        const {depth} = state;
+        return {...state, depth: depth - number};
+    }
 };
 
 const part2operations = {
-    forward: ({hpos, depth, aim}, {number}) => ({hpos: hpos + number, depth: depth + number*aim, aim}),
-    down: ({hpos, depth, aim}, {number}) => ({hpos, depth, aim: aim + number}),
-    up: ({hpos, depth, aim}, {number}) => ({hpos, depth, aim: aim - number})
+    forward: (state, number) => {
+        const {hpos, depth, aim} = state;
+        return {
+            ...state,
+            hpos: hpos + number,
+            depth: depth + number * aim
+        }
+    },
+
+    down: (state, number) => {
+        const {aim} = state;
+        return {...state, aim: aim + number}
+    },
+    
+    up: (state, number) => {
+        const {aim} = state;
+        return {...state, aim: aim - number};
+    }
 };
 
 const commandReducer = operations => (acc, c) => {
-    const {command} = c;
-    return operations[command](acc, c);
+    const {command, number} = c;
+    return operations[command](acc, number);
 };
 
 const solve = operations => start => commands => {
