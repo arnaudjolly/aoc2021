@@ -1,0 +1,5 @@
+Some ideas to play with:
+
+- create some classes for each command (Forward, Up, Down) which will have an "applyOn" method that takes a state and returns the new state.
+ pros: reduce will be simpler, 
+ cons: as the behavior is not the same in part1 and 2, we will have to create 2 methods: part1ApplyOn, part2ApplyOn 
